@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule">
+  <channel>
+      <title>PaaS.io Developer Portal</title>
+    <link>http://dev.paas.io</link>
+    <language>en</language>
+    <webMaster>help@paas.io (PaaS.io, Inc.)</webMaster>
+    <pubDate>2012-01-25T17:48:42-08:00</pubDate>
+    <copyright>Copyright 2009</copyright>
+    <creativeCommons:license>http://creativecommons.org/licenses/by-nc-sa/3.0/</creativeCommons:license>
+    <ttl>60</ttl>
+    <description>Developer Portal</description>
+    
+  </channel>
+</rss>

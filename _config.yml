@@ -1,0 +1,25 @@
+# accessible as site.*
+title: "PaaS.io Developer Portal"
+description: "Developer Portal"
+url: "http://dev.paas.io"
+author: "PaaS.io, Inc."
+email: "help@paas.io"
+
+exclude: [ 'public', 'Gemfile', 'Gemfile.lock', 'config.ru' ]
+
+# turn on pygment syntax highlighting
+pygments: true
+
+# pagination
+# paginate: 8
+
+## permalink style: http://wiki.github.com/mojombo/jekyll/permalinks
+permalink: /:categories/:title
+
+# use rdiscount for markdown
+markdown: rdiscount
+
+# maruku settings
+maruku:
+  png_dir: files/latex
+  png_url: /images/latex

@@ -1,0 +1,55 @@
+!!! 5
+%html(lang="en")
+  %head
+    %meta{ :charset => 'utf-8' }/
+    %title {{ page.title }} &mdash; {{ site.title }}
+    %meta{ :name => "author", :content => "{{ site.author }}" }/
+    :plain
+      <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+      <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+
+    %link{ :href => '/css/bootstrap.css', :rel => 'stylesheet', :type => 'text/css', :meda => 'all' }/
+    :css
+      body {
+        padding-top: 60px;
+      }
+
+    {{ head }}
+
+  %body
+    .navbar.navbar-fixed
+      .navbar-inner
+        .container
+          %a.brand{ :href => 'https://paas.io' }
+            %img{ :src => '/images/logo-small.png', :width => 45, :height => 25 }/
+          .brand {{ site.description }}
+
+    .container
+      .row
+        :plain
+          <div class="span3">
+            <ul class="nav list">
+              {% assign current = nil %}
+              {% if page.url == '/index.html' %}
+                {% assign current = 'active' %}
+              {% endif %}
+              <li class="{{current}}"><a href="/">Home</a>
+              {% for category in site.categories %}
+                <li class="nav-header">{{ category.first }}</li>
+                {% for post in category.last %}
+                  {% assign current = nil %}
+                  {% if page.url == post.url %}
+                    {% assign current = 'active' %}
+                  {% endif %}
+                  <li class="{{current}}"><a href="{{post.url}}">{{post.title}}</a>
+                {% endfor %}
+              {% endfor %}
+            </ul>
+          </div>
+        .span9
+          {{ content }}
+
+      %footer &copy; 2012 PaaS.io, Inc.
+    {{ outside }}
