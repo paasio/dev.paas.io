@@ -122,6 +122,37 @@ production group:</p>
 </div>
 
 
+<h4>Assets</h4>
+
+<p>By default, PaaS.io will automatically enable the serving of static
+assets. Application instances are not directly behind a web server like
+nginx, so serving of static assets must be enabled. It is automatically
+enabled at deploy time.</p>
+
+<h6>Precompiled Assets</h6>
+
+<p>The simplest option for assets is to have them precompiled and checked
+into your repository. You can run the following to compile your assets:</p>
+
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> <span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec </span>rake assets:clean assets:precompile
+</code></pre>
+</div>
+
+
+<p>You will need to do this anytime you make a change to any of the
+javascript, CSS, or image assets in your project.</p>
+
+<h6>Deploy Time Compilation</h6>
+
+<p>Currently, deploy time compilation is not supported, however it will be
+soon. On deploy, the assets will be precompiled if they are found to not
+be precompiled.</p>
+
+<h6>Runtime Compilation</h6>
+
+<p>If your assets aren't precompiled, they can be compiled at runtime.
+PaaS.io will inject a plugin to enable Rails runtime compilation.</p>
+
 <h2>Adding to Source Control</h2>
 
 <p>If using Git, you can now create a repository:</p>
