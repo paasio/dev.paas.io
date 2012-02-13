@@ -5,13 +5,132 @@
  <link href="http://dev.paas.io/atom.xml" rel="self"/>
  <link href="http://dev.paas.io"/>
  <link rel="license" type="/application/rdf+xml" href="http://creativecommons.org/licenses/by-nc-sa/3.0/rdf" />
- <updated>2012-02-13T13:07:53-08:00</updated>
+ <updated>2012-02-13T13:35:58-08:00</updated>
  <id>http://dev.paas.io</id>
  <author>
      <name>PaaS.io, Inc.</name>
      <email>help@paas.io</email>
  </author>
 
+ 
+ <entry>
+   <title>Useful Commands</title>
+   <link href="http://dev.paas.io//troubleshooting/useful-commands"/>
+   <link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-nc-sa/3.0/" />
+   <updated>2012-02-13T00:00:00-08:00</updated>
+   <id>http://dev.paas.io//troubleshooting/useful-commands</id>
+   <content type="html">&lt;p&gt;When trying to troubleshoot an application issue, there are a number of
+useful commands you can use to get insight into the problem.&lt;/p&gt;
+
+&lt;p&gt;Almost all of these are using the &lt;code&gt;paasio&lt;/code&gt; command line tool. To install
+and configure the command line tool, do the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; gem install paasio
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio login
+&lt;span class=&quot;go&quot;&gt;Attempting login to [https://api.paas.io]&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Email: person@example.com&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Password: ************&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Successfully logged into [https://api.paas.io]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h2&gt;Application Health&lt;/h2&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio apps
+
+&lt;span class=&quot;go&quot;&gt;+-----------------+----+---------+----------------------------------------+-------------+&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;| Application     | #  | Health  | URLS                                   | Services    |&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+-----------------+----+---------+----------------------------------------+-------------+&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;| my-rails31-app  | 1  | 0%      | my-rails31-app.paas.io                 |             |&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+-----------------+----+---------+----------------------------------------+-------------+&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;From here we can see the application is configured for 1 instance,
+however its health (number of running instances to number of configured
+instances) is 0%.&lt;/p&gt;
+
+&lt;p&gt;We can use some of the other commands to look into why the instances
+failed to start.&lt;/p&gt;
+
+&lt;h2&gt;Application Logs&lt;/h2&gt;
+
+&lt;p&gt;The best way to navigate the log files for an application is through the
+&lt;code&gt;paasio files&lt;/code&gt; command.&lt;/p&gt;
+
+&lt;p&gt;To browse the base directory do the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio files my-rails31-app
+&lt;span class=&quot;go&quot;&gt;app/                                         -&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;logs/                                        -&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;All application will have an &lt;code&gt;app&lt;/code&gt; and a &lt;code&gt;logs&lt;/code&gt; directory.  The &lt;code&gt;app&lt;/code&gt;
+directory can be used to browse the application code that is being
+loaded, while the &lt;code&gt;logs&lt;/code&gt; directory contains various log files from
+different peices.&lt;/p&gt;
+
+&lt;p&gt;Specify the path on the end of the &lt;code&gt;paasio files&lt;/code&gt; command to dig deeper.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio files my-rails31-app logs
+&lt;span class=&quot;go&quot;&gt;staging.log                               832B&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;migrations.log                            3.7K&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;stderr.log                               17.2K&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;stdout.log                               21.5K&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Here we can see that we have 4 logs available.&lt;/p&gt;
+
+&lt;p&gt;To view an individual log file, simply add it on to the command:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio files my-rails31-app logs/staging.log
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;This will output the entire contents of the file.&lt;/p&gt;
+
+&lt;p&gt;Some of the common log files include:&lt;/p&gt;
+
+&lt;table class=&quot;table&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;staging.log&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;This is the output of the staging phase which is run
+  when an application is deployed and packaged (the `Staging
+Application` line in the deploy output). Issues with installing
+dependencies will be captured in this log file.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;migrations.log&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;On startup, Rails applications will run any pending
+  migrations and capture the output to this file. If the application
+failed to start up due to a database configuration issue, it will be
+shown here. Double check the correct database adapter is installed and
+you have attached the database to the application.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;stderr.log&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Anything written to `STDERR` within the application will
+  be stored here.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;stdout.log&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Anything written to `STDOUT` within the application will
+  be stored here. If your application is behaving incorrectly, you might
+try and instrument some logging and watch the output in this file.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+</content>
+ </entry>
  
  <entry>
    <title>Ruby - Sinatra</title>
@@ -37,8 +156,8 @@ instead runs the main Sinatra application file directly.&lt;/p&gt;
 
 &lt;h2&gt;Create Your Application&lt;/h2&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir myapp
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;myapp
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; mkdir myapp
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;myapp
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -85,9 +204,9 @@ file.&lt;/p&gt;
 
 &lt;p&gt;If using Git, you can now create a repository:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git init
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git add .
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Initial Commit&amp;quot;&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git init
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git add .
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Initial Commit&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -97,25 +216,25 @@ file.&lt;/p&gt;
 &lt;p&gt;If you don't have it already, would recommend installing the PaaS.io
 command line tool:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install paasio
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio login
-Attempting login to &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-Email: person@example.com
-Password: ************
-Successfully logged into &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; gem install paasio
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio login
+&lt;span class=&quot;go&quot;&gt;Attempting login to [https://api.paas.io]&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Email: person@example.com&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Password: ************&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Successfully logged into [https://api.paas.io]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 
 &lt;p&gt;To create your application, use &lt;code&gt;paasio create&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio create my-sinatra-app
-Using application name &lt;span class=&quot;s2&quot;&gt;&amp;quot;my-sinatra-app&amp;quot;&lt;/span&gt;...
-Application Deployed URL &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;my-sinatra-app.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
-Detected a Sinatra Application, is this correct? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Yn&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
-Memory Reservation &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;256M, 512M, 1G, 2G&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;256M&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
-Creating Application: OK
-Git remote paasio added
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio create my-sinatra-app
+&lt;span class=&quot;go&quot;&gt;Using application name &amp;quot;my-sinatra-app&amp;quot;...&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Application Deployed URL [my-sinatra-app.paas.io]:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Detected a Sinatra Application, is this correct? [Yn]:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Memory Reservation (256M, 512M, 1G, 2G) [256M]:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Creating Application: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Git remote paasio added&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -123,11 +242,11 @@ Git remote paasio added
 &lt;p&gt;Since it saw we were using a Git
 repository, it automatically added a &lt;code&gt;paasio&lt;/code&gt; remote to our repository:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote show paasio
-* remote paasio
-  Fetch URL: deploy@paas.io:my-sinatra-app.git
-  Push  URL: deploy@paas.io:my-sinatra-app.git
-  HEAD branch: &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;unknown&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git remote show paasio
+&lt;span class=&quot;go&quot;&gt;* remote paasio&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  Fetch URL: deploy@paas.io:my-sinatra-app.git&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  Push  URL: deploy@paas.io:my-sinatra-app.git&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  HEAD branch: (unknown)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -137,23 +256,23 @@ anything to it.&lt;/p&gt;
 
 &lt;p&gt;Now we're ready to deploy it.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push -u paasio master
-Counting objects: 63, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
-Delta compression using up to 8 threads.
-Compressing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;48/48&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
-Writing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;63/63&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 25.21 KiB, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
-Total 63 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, reused 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-remote: Checking out code: OK
-remote:
-remote: Uploading Application:
-remote:   Checking &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;available resources: OK
-remote:   Packing application: OK
-remote:   Uploading &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4K&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: Push Status: OK
-remote: Staging Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-sinatra-app&amp;#39;&lt;/span&gt;: OK
-remote: Starting Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-sinatra-app&amp;#39;&lt;/span&gt;: OK
-To deploy@paas.io:my-sinatra-app.git
- * &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;new branch&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;      master -&amp;gt; master
-Branch master &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;up to track remote branch master from paasio.
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git push -u paasio master
+&lt;span class=&quot;go&quot;&gt;Counting objects: 63, done.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Delta compression using up to 8 threads.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Compressing objects: 100% (48/48), done.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Writing objects: 100% (63/63), 25.21 KiB, done.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Total 63 (delta 2), reused 0 (delta 0)&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Checking out code: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Uploading Application:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:   Checking for available resources: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:   Packing application: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:   Uploading (4K): Push Status: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Staging Application &amp;#39;my-sinatra-app&amp;#39;: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Starting Application &amp;#39;my-sinatra-app&amp;#39;: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;To deploy@paas.io:my-sinatra-app.git&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt; * [new branch]      master -&amp;gt; master&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Branch master set up to track remote branch master from paasio.&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -171,8 +290,8 @@ how many commits haven't been pushed to PaaS.io yet.&lt;/p&gt;
 
 &lt;p&gt;We can test it out with a simple &lt;code&gt;curl&lt;/code&gt; command:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl http://my-sinatra-app.paas.io
-Hello from PaaS.io
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; curl http://my-sinatra-app.paas.io
+&lt;span class=&quot;go&quot;&gt;Hello from PaaS.io&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -202,8 +321,8 @@ that are necessary.&lt;/p&gt;
 
 &lt;h2&gt;Create Your Application&lt;/h2&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;rails new myapp
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;myapp
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; rails new myapp
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;myapp
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -231,7 +350,7 @@ production group:&lt;/p&gt;
 
 &lt;p&gt;Now need to run bundler to make sure it regenerates the &lt;code&gt;Gemfile.lock&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;bundle install
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; bundle install
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -240,9 +359,9 @@ production group:&lt;/p&gt;
 
 &lt;p&gt;If using Git, you can now create a repository:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git init
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git add .
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Initial Commit&amp;quot;&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git init
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git add .
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Initial Commit&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -252,25 +371,25 @@ production group:&lt;/p&gt;
 &lt;p&gt;If you don't have it already, would recommend installing the PaaS.io
 command line tool:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install paasio
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio login
-Attempting login to &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-Email: person@example.com
-Password: ************
-Successfully logged into &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; gem install paasio
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio login
+&lt;span class=&quot;go&quot;&gt;Attempting login to [https://api.paas.io]&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Email: person@example.com&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Password: ************&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Successfully logged into [https://api.paas.io]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 
 &lt;p&gt;To create your application, use &lt;code&gt;paasio create&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio create my-rails31-app
-Using application name &lt;span class=&quot;s2&quot;&gt;&amp;quot;my-rails31-app&amp;quot;&lt;/span&gt;...
-Application Deployed URL &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;my-rails31-app.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
-Detected a Rails Application, is this correct? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Yn&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
-Memory Reservation &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;256M, 512M, 1G, 2G&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;256M&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
-Creating Application: OK
-Git remote paasio added
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio create my-rails31-app
+&lt;span class=&quot;go&quot;&gt;Using application name &amp;quot;my-rails31-app&amp;quot;...&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Application Deployed URL [my-rails31-app.paas.io]:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Detected a Rails Application, is this correct? [Yn]:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Memory Reservation (256M, 512M, 1G, 2G) [256M]:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Creating Application: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Git remote paasio added&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -278,11 +397,11 @@ Git remote paasio added
 &lt;p&gt;Since it saw we were using a Git
 repository, it automatically added a &lt;code&gt;paasio&lt;/code&gt; remote to our repository:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote show paasio
-* remote paasio
-  Fetch URL: deploy@paas.io:my-rails31-app.git
-  Push  URL: deploy@paas.io:my-rails31-app.git
-  HEAD branch: &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;unknown&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git remote show paasio
+&lt;span class=&quot;go&quot;&gt;* remote paasio&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  Fetch URL: deploy@paas.io:my-rails31-app.git&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  Push  URL: deploy@paas.io:my-rails31-app.git&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  HEAD branch: (unknown)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -292,23 +411,23 @@ anything to it.&lt;/p&gt;
 
 &lt;p&gt;Now we're ready to deploy it.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push -u paasio master
-Counting objects: 63, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
-Delta compression using up to 8 threads.
-Compressing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;48/48&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
-Writing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;63/63&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 25.21 KiB, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
-Total 63 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, reused 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-remote: Checking out code: OK
-remote:
-remote: Uploading Application:
-remote:   Checking &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;available resources: OK
-remote:   Packing application: OK
-remote:   Uploading &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;36K&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: Push Status: OK
-remote: Staging Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-rails31-app&amp;#39;&lt;/span&gt;: OK
-remote: Starting Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-rails31-app&amp;#39;&lt;/span&gt;: OK
-To deploy@paas.io:my-rails31-app.git
- * &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;new branch&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;      master -&amp;gt; master
-Branch master &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;up to track remote branch master from paasio.
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git push -u paasio master
+&lt;span class=&quot;go&quot;&gt;Counting objects: 63, done.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Delta compression using up to 8 threads.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Compressing objects: 100% (48/48), done.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Writing objects: 100% (63/63), 25.21 KiB, done.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Total 63 (delta 2), reused 0 (delta 0)&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Checking out code: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Uploading Application:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:   Checking for available resources: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:   Packing application: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:   Uploading (36K): Push Status: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Staging Application &amp;#39;my-rails31-app&amp;#39;: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Starting Application &amp;#39;my-rails31-app&amp;#39;: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;To deploy@paas.io:my-rails31-app.git&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt; * [new branch]      master -&amp;gt; master&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Branch master set up to track remote branch master from paasio.&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -366,8 +485,8 @@ the line &lt;code&gt;require 'sinatra'&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h2&gt;Create Your Application&lt;/h2&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir myapp
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;myapp
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; mkdir myapp
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;myapp
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -424,9 +543,9 @@ to start up the application.&lt;/p&gt;
 
 &lt;p&gt;If using Git, you can now create a repository:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git init
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git add .
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Initial Commit&amp;quot;&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git init
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git add .
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Initial Commit&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -436,25 +555,25 @@ to start up the application.&lt;/p&gt;
 &lt;p&gt;If you don't have it already, would recommend installing the PaaS.io
 command line tool:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install paasio
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio login
-Attempting login to &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-Email: person@example.com
-Password: ************
-Successfully logged into &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; gem install paasio
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio login
+&lt;span class=&quot;go&quot;&gt;Attempting login to [https://api.paas.io]&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Email: person@example.com&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Password: ************&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Successfully logged into [https://api.paas.io]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 
 &lt;p&gt;To create your application, use &lt;code&gt;paasio create&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio create my-rack-app
-Using application name &lt;span class=&quot;s2&quot;&gt;&amp;quot;my-rack-app&amp;quot;&lt;/span&gt;...
-Application Deployed URL &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;my-rack-app.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
-Detected a Rack Application, is this correct? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Yn&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
-Memory Reservation &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;256M, 512M, 1G, 2G&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;256M&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
-Creating Application: OK
-Git remote paasio added
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio create my-rack-app
+&lt;span class=&quot;go&quot;&gt;Using application name &amp;quot;my-rack-app&amp;quot;...&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Application Deployed URL [my-rack-app.paas.io]:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Detected a Rack Application, is this correct? [Yn]:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Memory Reservation (256M, 512M, 1G, 2G) [256M]:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Creating Application: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Git remote paasio added&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -462,11 +581,11 @@ Git remote paasio added
 &lt;p&gt;Since it saw we were using a Git
 repository, it automatically added a &lt;code&gt;paasio&lt;/code&gt; remote to our repository:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote show paasio
-* remote paasio
-  Fetch URL: deploy@paas.io:my-rack-app.git
-  Push  URL: deploy@paas.io:my-rack-app.git
-  HEAD branch: &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;unknown&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git remote show paasio
+&lt;span class=&quot;go&quot;&gt;* remote paasio&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  Fetch URL: deploy@paas.io:my-rack-app.git&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  Push  URL: deploy@paas.io:my-rack-app.git&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  HEAD branch: (unknown)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -476,23 +595,23 @@ anything to it.&lt;/p&gt;
 
 &lt;p&gt;Now we're ready to deploy it.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push -u paasio master
-Counting objects: 63, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
-Delta compression using up to 8 threads.
-Compressing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;48/48&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
-Writing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;63/63&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 25.21 KiB, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
-Total 63 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, reused 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-remote: Checking out code: OK
-remote:
-remote: Uploading Application:
-remote:   Checking &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;available resources: OK
-remote:   Packing application: OK
-remote:   Uploading &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4K&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: Push Status: OK
-remote: Staging Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-rack-app&amp;#39;&lt;/span&gt;: OK
-remote: Starting Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-rack-app&amp;#39;&lt;/span&gt;: OK
-To deploy@paas.io:my-rack-app.git
- * &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;new branch&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;      master -&amp;gt; master
-Branch master &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;up to track remote branch master from paasio.
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git push -u paasio master
+&lt;span class=&quot;go&quot;&gt;Counting objects: 63, done.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Delta compression using up to 8 threads.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Compressing objects: 100% (48/48), done.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Writing objects: 100% (63/63), 25.21 KiB, done.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Total 63 (delta 2), reused 0 (delta 0)&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Checking out code: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Uploading Application:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:   Checking for available resources: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:   Packing application: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:   Uploading (4K): Push Status: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Staging Application &amp;#39;my-rack-app&amp;#39;: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Starting Application &amp;#39;my-rack-app&amp;#39;: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;To deploy@paas.io:my-rack-app.git&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt; * [new branch]      master -&amp;gt; master&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Branch master set up to track remote branch master from paasio.&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -510,8 +629,8 @@ how many commits haven't been pushed to PaaS.io yet.&lt;/p&gt;
 
 &lt;p&gt;We can test it out with a simple &lt;code&gt;curl&lt;/code&gt; command:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl http://my-rack-app.paas.io
-Hello from PaaS.io
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; curl http://my-rack-app.paas.io
+&lt;span class=&quot;go&quot;&gt;Hello from PaaS.io&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -540,8 +659,8 @@ Node.js application.&lt;/p&gt;
 
 &lt;h2&gt;Create Your Application&lt;/h2&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir node-hello
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;node-hello
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; mkdir node-hello
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;node-hello
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -568,7 +687,7 @@ terminate it.&lt;/p&gt;
 &lt;p&gt;This app makes use of the &lt;code&gt;express&lt;/code&gt; module, so we need to install that
 locally with &lt;code&gt;npm&lt;/code&gt; to test it out.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install express
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; npm install express
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -584,9 +703,9 @@ and it will start up and be listening on port 3000.&lt;/p&gt;
 
 &lt;p&gt;If using Git, you can now create a repository:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git init
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git add .
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Initial Commit&amp;quot;&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git init
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git add .
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Initial Commit&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -596,24 +715,24 @@ and it will start up and be listening on port 3000.&lt;/p&gt;
 &lt;p&gt;If you don't have it already, would recommend installing the PaaS.io
 command line tool:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install paasio
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio login
-Attempting login to &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-Email: person@example.com
-Password: ************
-Successfully logged into &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; gem install paasio
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio login
+&lt;span class=&quot;go&quot;&gt;Attempting login to [https://api.paas.io]&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Email: person@example.com&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Password: ************&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Successfully logged into [https://api.paas.io]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 
 &lt;p&gt;To create your application, use &lt;code&gt;paasio create&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio create node-hello
-Application Deployed URL &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;node-hello.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
-Detected a Node.js Application, is this correct? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Yn&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
-Memory Reservation &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;256M, 512M, 1G, 2G&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;256M&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
-Creating Application: OK
-Git remote paasio added
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio create node-hello
+&lt;span class=&quot;go&quot;&gt;Application Deployed URL [node-hello.paas.io]:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Detected a Node.js Application, is this correct? [Yn]:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Memory Reservation (256M, 512M, 1G, 2G) [256M]:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Creating Application: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Git remote paasio added&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -621,11 +740,11 @@ Git remote paasio added
 &lt;p&gt;Since it saw we were using a Git
 repository, it automatically added a &lt;code&gt;paasio&lt;/code&gt; remote to our repository:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote show paasio
-* remote paasio
-  Fetch URL: deploy@paas.io:node-hello.git
-  Push  URL: deploy@paas.io:node-hello.git
-  HEAD branch: &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;unknown&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git remote show paasio
+&lt;span class=&quot;go&quot;&gt;* remote paasio&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  Fetch URL: deploy@paas.io:node-hello.git&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  Push  URL: deploy@paas.io:node-hello.git&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  HEAD branch: (unknown)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -635,23 +754,23 @@ anything to it.&lt;/p&gt;
 
 &lt;p&gt;Now we're ready to deploy it.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push -u paasio master
-Counting objects: 63, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
-Delta compression using up to 8 threads.
-Compressing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;48/48&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
-Writing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;63/63&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 25.21 KiB, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
-Total 63 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, reused 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-remote: Checking out code: OK
-remote:
-remote: Uploading Application:
-remote:   Checking &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;available resources: OK
-remote:   Packing application: OK
-remote:   Uploading &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;12K&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: Push Status: OK
-remote: Staging Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;node-hello&amp;#39;&lt;/span&gt;: OK
-remote: Starting Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;node-hello&amp;#39;&lt;/span&gt;: OK
-To deploy@paas.io:node-hello.git
- * &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;new branch&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;      master -&amp;gt; master
-Branch master &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;up to track remote branch master from paasio.
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; git push -u paasio master
+&lt;span class=&quot;go&quot;&gt;Counting objects: 63, done.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Delta compression using up to 8 threads.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Compressing objects: 100% (48/48), done.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Writing objects: 100% (63/63), 25.21 KiB, done.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Total 63 (delta 2), reused 0 (delta 0)&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Checking out code: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Uploading Application:&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:   Checking for available resources: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:   Packing application: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote:   Uploading (12K): Push Status: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Staging Application &amp;#39;node-hello&amp;#39;: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;remote: Starting Application &amp;#39;node-hello&amp;#39;: OK&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;To deploy@paas.io:node-hello.git&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt; * [new branch]      master -&amp;gt; master&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Branch master set up to track remote branch master from paasio.&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -663,8 +782,8 @@ how many commits haven't been pushed to PaaS.io yet.&lt;/p&gt;
 &lt;p&gt;Your application is now live! We can test it out with a simple &lt;code&gt;curl&lt;/code&gt;
 command:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl http://node-hello.paas.io
-Hello, World
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; curl http://node-hello.paas.io
+&lt;span class=&quot;go&quot;&gt;Hello, World&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 

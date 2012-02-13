@@ -19,7 +19,7 @@ instead runs the main Sinatra application file directly.
 
 ## Create Your Application
 
-{% highlight bash %}
+{% highlight console %}
 $ mkdir myapp
 $ cd myapp
 {% endhighlight %}
@@ -64,7 +64,7 @@ file.
 
 If using Git, you can now create a repository:
 
-{% highlight bash %}
+{% highlight console %}
 $ git init
 $ git add .
 $ git commit -m "Initial Commit"
@@ -75,7 +75,7 @@ $ git commit -m "Initial Commit"
 If you don't have it already, would recommend installing the PaaS.io
 command line tool:
 
-{% highlight bash %}
+{% highlight console %}
 $ gem install paasio
 $ paasio login
 Attempting login to [https://api.paas.io]
@@ -86,7 +86,7 @@ Successfully logged into [https://api.paas.io]
 
 To create your application, use `paasio create`
 
-{% highlight bash %}
+{% highlight console %}
 $ paasio create my-sinatra-app
 Using application name "my-sinatra-app"...
 Application Deployed URL [my-sinatra-app.paas.io]:
@@ -99,7 +99,7 @@ Git remote paasio added
 Since it saw we were using a Git
 repository, it automatically added a `paasio` remote to our repository:
 
-{% highlight bash %}
+{% highlight console %}
 $ git remote show paasio
 * remote paasio
   Fetch URL: deploy@paas.io:my-sinatra-app.git
@@ -112,7 +112,7 @@ anything to it.
 
 Now we're ready to deploy it.
 
-{% highlight bash %}
+{% highlight console %}
 $ git push -u paasio master
 Counting objects: 63, done.
 Delta compression using up to 8 threads.
@@ -145,7 +145,7 @@ how many commits haven't been pushed to PaaS.io yet.
 
 We can test it out with a simple `curl` command:
 
-{% highlight bash %}
+{% highlight console %}
 $ curl http://my-sinatra-app.paas.io
 Hello from PaaS.io
 {% endhighlight %}

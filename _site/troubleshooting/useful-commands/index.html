@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <title>Useful Commands &mdash; PaaS.io Developer Portal</title>
+    <meta content='PaaS.io, Inc.' name='author' />
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href='/css/bootstrap.css' meda='all' rel='stylesheet' type='text/css' />
+    <link href='/css/pygments/trac.css' meda='screen' rel='stylesheet' type='text/css' />
+    <style type='text/css'>
+      /*<![CDATA[*/
+        body {
+          padding-top: 60px;
+        }
+      /*]]>*/
+    </style>
+    
+  </head>
+  <body>
+    <div class='navbar navbar-fixed'>
+      <div class='navbar-inner'>
+        <div class='container'>
+          <a class='brand' href='https://paas.io'>
+            <img height='25' src='/images/logo-small.png' width='45' />
+          </a>
+          <div class='brand'>Developer Portal</div>
+        </div>
+      </div>
+    </div>
+    <div class='container'>
+      <div class='row'>
+        <div class="span3">
+          <ul class="nav list">
+            
+            
+            <li class=""><a href="/">Home</a>
+            
+              <li class="nav-header">tutorials</li>
+              
+                
+                
+                <li class=""><a href="/tutorials/nodejs">Node.js</a>
+              
+                
+                
+                <li class=""><a href="/tutorials/ruby-rack">Ruby - Rack</a>
+              
+                
+                
+                <li class=""><a href="/tutorials/ruby-rails-31">Ruby - Rails 3.1</a>
+              
+                
+                
+                <li class=""><a href="/tutorials/ruby-sinatra">Ruby - Sinatra</a>
+              
+            
+              <li class="nav-header">troubleshooting</li>
+              
+                
+                
+                  
+                
+                <li class="active"><a href="/troubleshooting/useful-commands">Useful Commands</a>
+              
+            
+          </ul>
+        </div>
+        <div class='span9' id='content'>
+          <div class="page-header">
+  <h1>Useful Commands</h1>
+</div>
+
+<p>When trying to troubleshoot an application issue, there are a number of
+useful commands you can use to get insight into the problem.</p>
+
+<p>Almost all of these are using the <code>paasio</code> command line tool. To install
+and configure the command line tool, do the following:</p>
+
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> gem install paasio
+<span class="gp">$</span> paasio login
+<span class="go">Attempting login to [https://api.paas.io]</span>
+<span class="go">Email: person@example.com</span>
+<span class="go">Password: ************</span>
+<span class="go">Successfully logged into [https://api.paas.io]</span>
+</code></pre>
+</div>
+
+
+<h2>Application Health</h2>
+
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> paasio apps
+
+<span class="go">+-----------------+----+---------+----------------------------------------+-------------+</span>
+<span class="go">| Application     | #  | Health  | URLS                                   | Services    |</span>
+<span class="go">+-----------------+----+---------+----------------------------------------+-------------+</span>
+<span class="go">| my-rails31-app  | 1  | 0%      | my-rails31-app.paas.io                 |             |</span>
+<span class="go">+-----------------+----+---------+----------------------------------------+-------------+</span>
+</code></pre>
+</div>
+
+
+<p>From here we can see the application is configured for 1 instance,
+however its health (number of running instances to number of configured
+instances) is 0%.</p>
+
+<p>We can use some of the other commands to look into why the instances
+failed to start.</p>
+
+<h2>Application Logs</h2>
+
+<p>The best way to navigate the log files for an application is through the
+<code>paasio files</code> command.</p>
+
+<p>To browse the base directory do the following:</p>
+
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> paasio files my-rails31-app
+<span class="go">app/                                         -</span>
+<span class="go">logs/                                        -</span>
+</code></pre>
+</div>
+
+
+<p>All application will have an <code>app</code> and a <code>logs</code> directory.  The <code>app</code>
+directory can be used to browse the application code that is being
+loaded, while the <code>logs</code> directory contains various log files from
+different peices.</p>
+
+<p>Specify the path on the end of the <code>paasio files</code> command to dig deeper.</p>
+
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> paasio files my-rails31-app logs
+<span class="go">staging.log                               832B</span>
+<span class="go">migrations.log                            3.7K</span>
+<span class="go">stderr.log                               17.2K</span>
+<span class="go">stdout.log                               21.5K</span>
+</code></pre>
+</div>
+
+
+<p>Here we can see that we have 4 logs available.</p>
+
+<p>To view an individual log file, simply add it on to the command:</p>
+
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> paasio files my-rails31-app logs/staging.log
+</code></pre>
+</div>
+
+
+<p>This will output the entire contents of the file.</p>
+
+<p>Some of the common log files include:</p>
+
+<table class="table">
+  <tbody>
+    <tr>
+      <td><code>staging.log</code></td>
+      <td>This is the output of the staging phase which is run
+  when an application is deployed and packaged (the `Staging
+Application` line in the deploy output). Issues with installing
+dependencies will be captured in this log file.</td>
+    </tr>
+    <tr>
+      <td><code>migrations.log</code></td>
+      <td>On startup, Rails applications will run any pending
+  migrations and capture the output to this file. If the application
+failed to start up due to a database configuration issue, it will be
+shown here. Double check the correct database adapter is installed and
+you have attached the database to the application.</td>
+    </tr>
+    <tr>
+      <td><code>stderr.log</code></td>
+      <td>Anything written to `STDERR` within the application will
+  be stored here.</td>
+    </tr>
+    <tr>
+      <td><code>stdout.log</code></td>
+      <td>Anything written to `STDOUT` within the application will
+  be stored here. If your application is behaving incorrectly, you might
+try and instrument some logging and watch the output in this file.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<h6>Monday, February 13, 2012</h6>
+
+        </div>
+      </div>
+      <footer>&copy; 2012 PaaS.io, Inc.</footer>
+    </div>
+    
+  </body>
+</html>

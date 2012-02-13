@@ -59,6 +59,13 @@
                 <li class=""><a href="/tutorials/ruby-sinatra">Ruby - Sinatra</a>
               
             
+              <li class="nav-header">troubleshooting</li>
+              
+                
+                
+                <li class=""><a href="/troubleshooting/useful-commands">Useful Commands</a>
+              
+            
           </ul>
         </div>
         <div class='span9' id='content'>
@@ -81,8 +88,8 @@ that are necessary.</p>
 
 <h2>Create Your Application</h2>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>rails new myapp
-<span class="nv">$ </span><span class="nb">cd </span>myapp
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> rails new myapp
+<span class="gp">$</span> <span class="nb">cd </span>myapp
 </code></pre>
 </div>
 
@@ -110,7 +117,7 @@ production group:</p>
 
 <p>Now need to run bundler to make sure it regenerates the <code>Gemfile.lock</code>:</p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>bundle install
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> bundle install
 </code></pre>
 </div>
 
@@ -119,9 +126,9 @@ production group:</p>
 
 <p>If using Git, you can now create a repository:</p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git init
-<span class="nv">$ </span>git add .
-<span class="nv">$ </span>git commit -m <span class="s2">&quot;Initial Commit&quot;</span>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> git init
+<span class="gp">$</span> git add .
+<span class="gp">$</span> git commit -m <span class="s2">&quot;Initial Commit&quot;</span>
 </code></pre>
 </div>
 
@@ -131,25 +138,25 @@ production group:</p>
 <p>If you don't have it already, would recommend installing the PaaS.io
 command line tool:</p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>gem install paasio
-<span class="nv">$ </span>paasio login
-Attempting login to <span class="o">[</span>https://api.paas.io<span class="o">]</span>
-Email: person@example.com
-Password: ************
-Successfully logged into <span class="o">[</span>https://api.paas.io<span class="o">]</span>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> gem install paasio
+<span class="gp">$</span> paasio login
+<span class="go">Attempting login to [https://api.paas.io]</span>
+<span class="go">Email: person@example.com</span>
+<span class="go">Password: ************</span>
+<span class="go">Successfully logged into [https://api.paas.io]</span>
 </code></pre>
 </div>
 
 
 <p>To create your application, use <code>paasio create</code></p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>paasio create my-rails31-app
-Using application name <span class="s2">&quot;my-rails31-app&quot;</span>...
-Application Deployed URL <span class="o">[</span>my-rails31-app.paas.io<span class="o">]</span>:
-Detected a Rails Application, is this correct? <span class="o">[</span>Yn<span class="o">]</span>:
-Memory Reservation <span class="o">(</span>256M, 512M, 1G, 2G<span class="o">)</span> <span class="o">[</span>256M<span class="o">]</span>:
-Creating Application: OK
-Git remote paasio added
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> paasio create my-rails31-app
+<span class="go">Using application name &quot;my-rails31-app&quot;...</span>
+<span class="go">Application Deployed URL [my-rails31-app.paas.io]:</span>
+<span class="go">Detected a Rails Application, is this correct? [Yn]:</span>
+<span class="go">Memory Reservation (256M, 512M, 1G, 2G) [256M]:</span>
+<span class="go">Creating Application: OK</span>
+<span class="go">Git remote paasio added</span>
 </code></pre>
 </div>
 
@@ -157,11 +164,11 @@ Git remote paasio added
 <p>Since it saw we were using a Git
 repository, it automatically added a <code>paasio</code> remote to our repository:</p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git remote show paasio
-* remote paasio
-  Fetch URL: deploy@paas.io:my-rails31-app.git
-  Push  URL: deploy@paas.io:my-rails31-app.git
-  HEAD branch: <span class="o">(</span>unknown<span class="o">)</span>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> git remote show paasio
+<span class="go">* remote paasio</span>
+<span class="go">  Fetch URL: deploy@paas.io:my-rails31-app.git</span>
+<span class="go">  Push  URL: deploy@paas.io:my-rails31-app.git</span>
+<span class="go">  HEAD branch: (unknown)</span>
 </code></pre>
 </div>
 
@@ -171,23 +178,23 @@ anything to it.</p>
 
 <p>Now we're ready to deploy it.</p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git push -u paasio master
-Counting objects: 63, <span class="k">done</span>.
-Delta compression using up to 8 threads.
-Compressing objects: 100% <span class="o">(</span>48/48<span class="o">)</span>, <span class="k">done</span>.
-Writing objects: 100% <span class="o">(</span>63/63<span class="o">)</span>, 25.21 KiB, <span class="k">done</span>.
-Total 63 <span class="o">(</span>delta 2<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>
-remote: Checking out code: OK
-remote:
-remote: Uploading Application:
-remote:   Checking <span class="k">for </span>available resources: OK
-remote:   Packing application: OK
-remote:   Uploading <span class="o">(</span>36K<span class="o">)</span>: Push Status: OK
-remote: Staging Application <span class="s1">&#39;my-rails31-app&#39;</span>: OK
-remote: Starting Application <span class="s1">&#39;my-rails31-app&#39;</span>: OK
-To deploy@paas.io:my-rails31-app.git
- * <span class="o">[</span>new branch<span class="o">]</span>      master -&gt; master
-Branch master <span class="nb">set </span>up to track remote branch master from paasio.
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> git push -u paasio master
+<span class="go">Counting objects: 63, done.</span>
+<span class="go">Delta compression using up to 8 threads.</span>
+<span class="go">Compressing objects: 100% (48/48), done.</span>
+<span class="go">Writing objects: 100% (63/63), 25.21 KiB, done.</span>
+<span class="go">Total 63 (delta 2), reused 0 (delta 0)</span>
+<span class="go">remote: Checking out code: OK</span>
+<span class="go">remote:</span>
+<span class="go">remote: Uploading Application:</span>
+<span class="go">remote:   Checking for available resources: OK</span>
+<span class="go">remote:   Packing application: OK</span>
+<span class="go">remote:   Uploading (36K): Push Status: OK</span>
+<span class="go">remote: Staging Application &#39;my-rails31-app&#39;: OK</span>
+<span class="go">remote: Starting Application &#39;my-rails31-app&#39;: OK</span>
+<span class="go">To deploy@paas.io:my-rails31-app.git</span>
+<span class="go"> * [new branch]      master -&gt; master</span>
+<span class="go">Branch master set up to track remote branch master from paasio.</span>
 </code></pre>
 </div>
 
