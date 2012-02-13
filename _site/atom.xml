@@ -5,7 +5,7 @@
  <link href="http://dev.paas.io/atom.xml" rel="self"/>
  <link href="http://dev.paas.io"/>
  <link rel="license" type="/application/rdf+xml" href="http://creativecommons.org/licenses/by-nc-sa/3.0/rdf" />
- <updated>2012-02-13T15:01:28-08:00</updated>
+ <updated>2012-02-13T15:04:30-08:00</updated>
  <id>http://dev.paas.io</id>
  <author>
      <name>PaaS.io, Inc.</name>
@@ -77,10 +77,10 @@ different peices.&lt;/p&gt;
 &lt;p&gt;Specify the path on the end of the &lt;code&gt;paasio files&lt;/code&gt; command to dig deeper.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; paasio files my-rails31-app logs
-&lt;span class=&quot;go&quot;&gt;staging.log                               832B&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;migrations.log                            3.7K&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;stderr.log                               17.2K&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;stdout.log                               21.5K&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;migration.log                             345B&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;staging.log                               1.7K&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;stderr.log                                108B&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;stdout.log                                365B&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -108,7 +108,7 @@ Application` line in the deploy output). Issues with installing
 dependencies will be captured in this log file.&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td&gt;&lt;code&gt;migrations.log&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;migration.log&lt;/code&gt;&lt;/td&gt;
       &lt;td&gt;On startup, Rails applications will run any pending
   migrations and capture the output to this file. If the application
 failed to start up due to a database configuration issue, it will be

@@ -61,10 +61,10 @@ Specify the path on the end of the `paasio files` command to dig deeper.
 
 {% highlight console %}
 $ paasio files my-rails31-app logs
-staging.log                               832B
-migrations.log                            3.7K
-stderr.log                               17.2K
-stdout.log                               21.5K
+migration.log                             345B
+staging.log                               1.7K
+stderr.log                                108B
+stdout.log                                365B
 {% endhighlight %}
 
 Here we can see that we have 4 logs available.
@@ -89,7 +89,7 @@ Application` line in the deploy output). Issues with installing
 dependencies will be captured in this log file.</td>
     </tr>
     <tr>
-      <td><code>migrations.log</code></td>
+      <td><code>migration.log</code></td>
       <td>On startup, Rails applications will run any pending
   migrations and capture the output to this file. If the application
 failed to start up due to a database configuration issue, it will be
