@@ -5,17 +5,180 @@
     <link>http://dev.paas.io</link>
     <language>en</language>
     <webMaster>help@paas.io (PaaS.io, Inc.)</webMaster>
-    <pubDate>2012-02-13T11:47:33-08:00</pubDate>
+    <pubDate>2012-02-13T12:55:31-08:00</pubDate>
     <copyright>Copyright 2009</copyright>
     <creativeCommons:license>http://creativecommons.org/licenses/by-nc-sa/3.0/</creativeCommons:license>
     <ttl>60</ttl>
     <description>Developer Portal</description>
     
     <item>
-      <title>Rails 3.1</title>
-      <link>http://dev.paas.io/tutorials/rails-3-1</link>
+      <title>Ruby - Sinatra</title>
+      <link>http://dev.paas.io/tutorials/ruby-sinatra</link>
       <pubDate>Mon Feb 13 00:00:00 -0800 2012</pubDate>
-      <guid>http://dev.paas.io/archives/tutorials/rails-3-1/</guid>
+      <guid>http://dev.paas.io/archives/tutorials/ruby-sinatra/</guid>
+      <description>&lt;p&gt;In this tutorial, we will cover how to deploy a basic Hello World
+Sinatra application to PaaS.io.&lt;/p&gt;
+
+&lt;p&gt;Please note that this tutorial has a few distinct differences from the
+Rack tutorial. A Sinatra application doesn't need a &lt;code&gt;config.ru&lt;/code&gt; file and
+instead runs the main Sinatra application file directly.&lt;/p&gt;
+
+&lt;h2&gt;Prerequisites&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Basic Ruby knowledge, including Bundler&lt;/li&gt;
+&lt;li&gt;Ruby already installed&lt;/li&gt;
+&lt;li&gt;Basic knowledge of Git, or Mercurial if you wish to use Mercurial&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Create Your Application&lt;/h2&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir myapp
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;myapp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h4&gt;Gemfile&lt;/h4&gt;
+
+&lt;p&gt;In your Gemfile, add the following entries:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:rubygems&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;sinatra&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;thin&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;After creating the Gemfile, be sure to run &lt;code&gt;bundle install&lt;/code&gt; to install
+the gems and to generate the &lt;code&gt;Gemfile.lock&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;It is necessary to specify &lt;code&gt;thin&lt;/code&gt; in the Gemfile or else the application
+will be started using WebBrick instead.&lt;/p&gt;
+
+&lt;h4&gt;Main Application&lt;/h4&gt;
+
+&lt;p&gt;Create a file called &lt;code&gt;hello.rb&lt;/code&gt; containing the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;rubygems&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;sinatra&amp;#39;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;/&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+   &lt;span class=&quot;s2&quot;&gt;&amp;quot;Hello from PaaS.io&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;The Sinatra framework will directly run the first file it sees
+contianing the line &lt;code&gt;require 'sinatra'&lt;/code&gt;.  Because of this, you can't
+have Bundler take care of the requiring.  If you want to use Bundler to
+require all the files, then the Rack framework is recommended instead,
+and it will load the application directly using the &lt;code&gt;config.ru&lt;/code&gt; rackup
+file.&lt;/p&gt;
+
+&lt;h2&gt;Adding to Source Control&lt;/h2&gt;
+
+&lt;p&gt;If using Git, you can now create a repository:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git init
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git add .
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Initial Commit&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h2&gt;Deploying Your Application&lt;/h2&gt;
+
+&lt;p&gt;If you don't have it already, would recommend installing the PaaS.io
+command line tool:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install paasio
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;To create your application, use &lt;code&gt;paasio create&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio create my-sinatra-app
+Using application name &lt;span class=&quot;s2&quot;&gt;&amp;quot;my-sinatra-app&amp;quot;&lt;/span&gt;...
+Application Deployed URL &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;my-sinatra-app.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
+Detected a Sinatra Application, is this correct? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Yn&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
+Memory Reservation &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;256M, 512M, 1G, 2G&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;256M&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
+Creating Application: OK
+Git remote paasio added
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Since it saw we were using a Git
+repository, it automatically added a &lt;code&gt;paasio&lt;/code&gt; remote to our repository:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote show paasio
+* remote paasio
+  Fetch URL: deploy@paas.io:my-sinatra-app.git
+  Push  URL: deploy@paas.io:my-sinatra-app.git
+  HEAD branch: &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;unknown&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;The HEAD branch portion says &quot;(unknown)&quot; because we haven't yet pushed
+anything to it.&lt;/p&gt;
+
+&lt;p&gt;Now we're ready to deploy it.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push -u paasio master
+Counting objects: 63, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
+Delta compression using up to 8 threads.
+Compressing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;48/48&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
+Writing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;63/63&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 25.21 KiB, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
+Total 63 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, reused 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+remote: Checking out code: OK
+remote:
+remote: Uploading Application:
+remote:   Checking &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;available resources: OK
+remote:   Packing application: OK
+remote:   Uploading &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4K&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: Push Status: OK
+remote: Staging Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-sinatra-app&amp;#39;&lt;/span&gt;: OK
+remote: Starting Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-sinatra-app&amp;#39;&lt;/span&gt;: OK
+To deploy@paas.io:my-sinatra-app.git
+ * &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;new branch&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;      master -&amp;gt; master
+Branch master &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;up to track remote branch master from paasio.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Your application is now live! When deploying, it may sit at the &quot;Staging
+Application&quot; stage for a little while at first.  It is working on
+installing all of the necessary gems. On future deploys, it will be much
+quicker since it will cache compiled gems for future use.&lt;/p&gt;
+
+&lt;p&gt;We specify the &lt;code&gt;-u&lt;/code&gt; parameter in the push command because this sets up
+tracking in Git. With that, when you run &lt;code&gt;git status&lt;/code&gt;, it will show you
+how many commits haven't been pushed to PaaS.io yet.&lt;/p&gt;
+
+&lt;h4&gt;Verifying it is live&lt;/h4&gt;
+
+&lt;p&gt;We can test it out with a simple &lt;code&gt;curl&lt;/code&gt; command:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl http://my-sinatra-app.paas.io
+Hello from PaaS.io
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+
+</description>
+      <creativeCommons:license>http://creativecommons.org/licenses/by-nc-sa/3.0/</creativeCommons:license>
+    </item>
+    
+    <item>
+      <title>Ruby - Rails 3.1</title>
+      <link>http://dev.paas.io/tutorials/ruby-rails-31</link>
+      <pubDate>Mon Feb 13 00:00:00 -0800 2012</pubDate>
+      <guid>http://dev.paas.io/archives/tutorials/ruby-rails-31/</guid>
       <description>&lt;p&gt;In this tutorial, we will cover how to deploy a brand new Rails 3.1
 application to PaaS.io, focusing primarily on the configuration changes
 that are necessary.&lt;/p&gt;
@@ -162,6 +325,180 @@ Support for this will be coming soon.&lt;/p&gt;
 
 &lt;p&gt;Currently we do not support running one-off rake tasks. Supporting them
 is on our roadmap though.&lt;/p&gt;
+</description>
+      <creativeCommons:license>http://creativecommons.org/licenses/by-nc-sa/3.0/</creativeCommons:license>
+    </item>
+    
+    <item>
+      <title>Ruby - Rack</title>
+      <link>http://dev.paas.io/tutorials/ruby-rack</link>
+      <pubDate>Mon Feb 13 00:00:00 -0800 2012</pubDate>
+      <guid>http://dev.paas.io/archives/tutorials/ruby-rack/</guid>
+      <description>&lt;p&gt;In this tutorial, we will cover how to deploy a basic Hello World
+Rack application using Sinatra to PaaS.io.&lt;/p&gt;
+
+&lt;p&gt;Please note that this tutorial has a lot in common with the Sinatra
+tutorial, however by a Rack application loads based on the &lt;code&gt;config.ru&lt;/code&gt;
+file while the Sinatra application type targets the file which contains
+the line &lt;code&gt;require 'sinatra'&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Prerequisites&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Basic Ruby knowledge, including Bundler&lt;/li&gt;
+&lt;li&gt;Ruby already installed&lt;/li&gt;
+&lt;li&gt;Basic knowledge of Git, or Mercurial if you wish to use Mercurial&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Create Your Application&lt;/h2&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir myapp
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;myapp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h4&gt;Gemfile&lt;/h4&gt;
+
+&lt;p&gt;In your Gemfile, add the following entries:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:rubygems&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;sinatra&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;thin&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;After creating the Gemfile, be sure to run &lt;code&gt;bundle install&lt;/code&gt; to install
+the gems and to generate the &lt;code&gt;Gemfile.lock&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;It is necessary to specify &lt;code&gt;thin&lt;/code&gt; in the Gemfile or else the application
+will be started using WebBrick instead.&lt;/p&gt;
+
+&lt;h4&gt;Main Application&lt;/h4&gt;
+
+&lt;p&gt;Create a file called &lt;code&gt;hello.rb&lt;/code&gt; containing the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;bundler&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Bundler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;require&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;/&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+   &lt;span class=&quot;s2&quot;&gt;&amp;quot;Hello from PaaS.io&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;In comparison to the Sinatra tutorial, now we're simply using
+&lt;code&gt;Bundler.require&lt;/code&gt; to load all the necessary gems.&lt;/p&gt;
+
+&lt;h4&gt;The Rackup File (config.ru)&lt;/h4&gt;
+
+&lt;p&gt;And finally, we create the rackup file (&lt;code&gt;config.ru&lt;/code&gt;) which specifies how
+to start up the application.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;./hello&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Sinatra&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Application&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;In this case, it simply loads the &lt;code&gt;hello.rb&lt;/code&gt; file and then calls to
+&lt;code&gt;Sinatra::Application&lt;/code&gt; as the main rack application to run.&lt;/p&gt;
+
+&lt;h2&gt;Adding to Source Control&lt;/h2&gt;
+
+&lt;p&gt;If using Git, you can now create a repository:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git init
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git add .
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Initial Commit&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h2&gt;Deploying Your Application&lt;/h2&gt;
+
+&lt;p&gt;If you don't have it already, would recommend installing the PaaS.io
+command line tool:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install paasio
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;To create your application, use &lt;code&gt;paasio create&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio create my-rack-app
+Using application name &lt;span class=&quot;s2&quot;&gt;&amp;quot;my-rack-app&amp;quot;&lt;/span&gt;...
+Application Deployed URL &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;my-rack-app.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
+Detected a Rack Application, is this correct? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Yn&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
+Memory Reservation &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;256M, 512M, 1G, 2G&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;256M&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
+Creating Application: OK
+Git remote paasio added
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Since it saw we were using a Git
+repository, it automatically added a &lt;code&gt;paasio&lt;/code&gt; remote to our repository:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote show paasio
+* remote paasio
+  Fetch URL: deploy@paas.io:my-rack-app.git
+  Push  URL: deploy@paas.io:my-rack-app.git
+  HEAD branch: &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;unknown&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;The HEAD branch portion says &quot;(unknown)&quot; because we haven't yet pushed
+anything to it.&lt;/p&gt;
+
+&lt;p&gt;Now we're ready to deploy it.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push -u paasio master
+Counting objects: 63, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
+Delta compression using up to 8 threads.
+Compressing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;48/48&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
+Writing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;63/63&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 25.21 KiB, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
+Total 63 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, reused 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+remote: Checking out code: OK
+remote:
+remote: Uploading Application:
+remote:   Checking &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;available resources: OK
+remote:   Packing application: OK
+remote:   Uploading &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4K&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: Push Status: OK
+remote: Staging Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-rack-app&amp;#39;&lt;/span&gt;: OK
+remote: Starting Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-rack-app&amp;#39;&lt;/span&gt;: OK
+To deploy@paas.io:my-rack-app.git
+ * &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;new branch&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;      master -&amp;gt; master
+Branch master &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;up to track remote branch master from paasio.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Your application is now live! When deploying, it may sit at the &quot;Staging
+Application&quot; stage for a little while at first.  It is working on
+installing all of the necessary gems. On future deploys, it will be much
+quicker since it will cache compiled gems for future use.&lt;/p&gt;
+
+&lt;p&gt;We specify the &lt;code&gt;-u&lt;/code&gt; parameter in the push command because this sets up
+tracking in Git. With that, when you run &lt;code&gt;git status&lt;/code&gt;, it will show you
+how many commits haven't been pushed to PaaS.io yet.&lt;/p&gt;
+
+&lt;h4&gt;Verifying it is live&lt;/h4&gt;
+
+&lt;p&gt;We can test it out with a simple &lt;code&gt;curl&lt;/code&gt; command:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl http://my-rack-app.paas.io
+Hello from PaaS.io
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+
 </description>
       <creativeCommons:license>http://creativecommons.org/licenses/by-nc-sa/3.0/</creativeCommons:license>
     </item>

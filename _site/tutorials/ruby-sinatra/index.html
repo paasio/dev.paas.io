@@ -2,7 +2,7 @@
 <html lang='en'>
   <head>
     <meta charset='utf-8' />
-    <title>Node.js &mdash; PaaS.io Developer Portal</title>
+    <title>Ruby - Sinatra &mdash; PaaS.io Developer Portal</title>
     <meta content='PaaS.io, Inc.' name='author' />
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
@@ -42,9 +42,7 @@
               
                 
                 
-                  
-                
-                <li class="active"><a href="/tutorials/nodejs">Node.js</a>
+                <li class=""><a href="/tutorials/nodejs">Node.js</a>
               
                 
                 
@@ -56,69 +54,79 @@
               
                 
                 
-                <li class=""><a href="/tutorials/ruby-sinatra">Ruby - Sinatra</a>
+                  
+                
+                <li class="active"><a href="/tutorials/ruby-sinatra">Ruby - Sinatra</a>
               
             
           </ul>
         </div>
         <div class='span9' id='content'>
           <div class="page-header">
-  <h1>Node.js</h1>
+  <h1>Ruby - Sinatra</h1>
 </div>
 
-<p>In this tutorial, we will cover how to deploy a simple "Hello World"
-Node.js application.</p>
+<p>In this tutorial, we will cover how to deploy a basic Hello World
+Sinatra application to PaaS.io.</p>
+
+<p>Please note that this tutorial has a few distinct differences from the
+Rack tutorial. A Sinatra application doesn't need a <code>config.ru</code> file and
+instead runs the main Sinatra application file directly.</p>
 
 <h2>Prerequisites</h2>
 
 <ul>
-<li>Basic Node.js knowledge</li>
-<li>Node.js 0.6 already installed</li>
+<li>Basic Ruby knowledge, including Bundler</li>
+<li>Ruby already installed</li>
 <li>Basic knowledge of Git, or Mercurial if you wish to use Mercurial</li>
 </ul>
 
 
 <h2>Create Your Application</h2>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir node-hello
-<span class="nv">$ </span><span class="nb">cd </span>node-hello
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir myapp
+<span class="nv">$ </span><span class="nb">cd </span>myapp
 </code></pre>
 </div>
 
 
-<p>Create an <code>app.js</code> file which will be your main entry point. By default,
-PaaS.io will look for an <code>app.js</code> or <code>server.js</code> file.</p>
+<h4>Gemfile</h4>
 
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">).</span><span class="nx">createServer</span><span class="p">();</span>
+<p>In your Gemfile, add the following entries:</p>
 
-<span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">&#39;Hello, World&#39;</span><span class="p">);</span>
-<span class="p">});</span>
-
-<span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">VCAP_APP_PORT</span> <span class="o">||</span> <span class="mi">3000</span><span class="p">);</span>
+<div class="highlight"><pre><code class="ruby"><span class="n">source</span> <span class="ss">:rubygems</span>
+<span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span>
+<span class="n">gem</span> <span class="s1">&#39;thin&#39;</span>
 </code></pre>
 </div>
 
 
-<p>The port which the application is supposed to be listening on is passed
-using the <code>VCAP_APP_PORT</code> environment variable. If this port isn't bound
-to on startup, it will assume the application failed to start and
-terminate it.</p>
+<p>After creating the Gemfile, be sure to run <code>bundle install</code> to install
+the gems and to generate the <code>Gemfile.lock</code> file.</p>
 
-<p>This app makes use of the <code>express</code> module, so we need to install that
-locally with <code>npm</code> to test it out.</p>
+<p>It is necessary to specify <code>thin</code> in the Gemfile or else the application
+will be started using WebBrick instead.</p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>npm install express
+<h4>Main Application</h4>
+
+<p>Create a file called <code>hello.rb</code> containing the following:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="nb">require</span> <span class="s1">&#39;rubygems&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+
+<span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+   <span class="s2">&quot;Hello from PaaS.io&quot;</span>
+<span class="k">end</span>
 </code></pre>
 </div>
 
 
-<p>This will create the <code>node_modules</code> directory. Currently, we don't
-install modules that are specified in a <code>packages.json</code> file, so the
-modules directory must be commited to source control and deployed.</p>
-
-<p>If we want to run our application locally, can just call <code>node app.js</code>
-and it will start up and be listening on port 3000.</p>
+<p>The Sinatra framework will directly run the first file it sees
+contianing the line <code>require 'sinatra'</code>.  Because of this, you can't
+have Bundler take care of the requiring.  If you want to use Bundler to
+require all the files, then the Rack framework is recommended instead,
+and it will load the application directly using the <code>config.ru</code> rackup
+file.</p>
 
 <h2>Adding to Source Control</h2>
 
@@ -143,9 +151,10 @@ command line tool:</p>
 
 <p>To create your application, use <code>paasio create</code></p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>paasio create node-hello
-Application Deployed URL <span class="o">[</span>node-hello.paas.io<span class="o">]</span>:
-Detected a Node.js Application, is this correct? <span class="o">[</span>Yn<span class="o">]</span>:
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>paasio create my-sinatra-app
+Using application name <span class="s2">&quot;my-sinatra-app&quot;</span>...
+Application Deployed URL <span class="o">[</span>my-sinatra-app.paas.io<span class="o">]</span>:
+Detected a Sinatra Application, is this correct? <span class="o">[</span>Yn<span class="o">]</span>:
 Memory Reservation <span class="o">(</span>256M, 512M, 1G, 2G<span class="o">)</span> <span class="o">[</span>256M<span class="o">]</span>:
 Creating Application: OK
 Git remote paasio added
@@ -158,8 +167,8 @@ repository, it automatically added a <code>paasio</code> remote to our repositor
 
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git remote show paasio
 * remote paasio
-  Fetch URL: deploy@paas.io:node-hello.git
-  Push  URL: deploy@paas.io:node-hello.git
+  Fetch URL: deploy@paas.io:my-sinatra-app.git
+  Push  URL: deploy@paas.io:my-sinatra-app.git
   HEAD branch: <span class="o">(</span>unknown<span class="o">)</span>
 </code></pre>
 </div>
@@ -181,25 +190,31 @@ remote:
 remote: Uploading Application:
 remote:   Checking <span class="k">for </span>available resources: OK
 remote:   Packing application: OK
-remote:   Uploading <span class="o">(</span>12K<span class="o">)</span>: Push Status: OK
-remote: Staging Application <span class="s1">&#39;node-hello&#39;</span>: OK
-remote: Starting Application <span class="s1">&#39;node-hello&#39;</span>: OK
-To deploy@paas.io:node-hello.git
+remote:   Uploading <span class="o">(</span>4K<span class="o">)</span>: Push Status: OK
+remote: Staging Application <span class="s1">&#39;my-sinatra-app&#39;</span>: OK
+remote: Starting Application <span class="s1">&#39;my-sinatra-app&#39;</span>: OK
+To deploy@paas.io:my-sinatra-app.git
  * <span class="o">[</span>new branch<span class="o">]</span>      master -&gt; master
 Branch master <span class="nb">set </span>up to track remote branch master from paasio.
 </code></pre>
 </div>
 
 
+<p>Your application is now live! When deploying, it may sit at the "Staging
+Application" stage for a little while at first.  It is working on
+installing all of the necessary gems. On future deploys, it will be much
+quicker since it will cache compiled gems for future use.</p>
+
 <p>We specify the <code>-u</code> parameter in the push command because this sets up
 tracking in Git. With that, when you run <code>git status</code>, it will show you
 how many commits haven't been pushed to PaaS.io yet.</p>
 
-<p>Your application is now live! We can test it out with a simple <code>curl</code>
-command:</p>
+<h4>Verifying it is live</h4>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>curl http://node-hello.paas.io
-Hello, World
+<p>We can test it out with a simple <code>curl</code> command:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>curl http://my-sinatra-app.paas.io
+Hello from PaaS.io
 </code></pre>
 </div>
 
