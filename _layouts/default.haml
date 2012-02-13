@@ -20,18 +20,18 @@
     {{ head }}
 
   %body
-    .navbar.navbar-fixed
+    .navbar.navbar-fixed-top
       .navbar-inner
         .container
           %a.brand{ :href => 'https://paas.io' }
             %img{ :src => '/images/logo-small.png', :width => 45, :height => 25 }/
-          .brand {{ site.description }}
+          %a.brand{ :href => 'http://dev.paas.io' } {{ site.description }}
 
     .container
       .row
         :plain
           <div class="span3">
-            <ul class="nav list">
+            <ul class="nav nav-list">
               {% assign current = nil %}
               {% if page.url == '/index.html' %}
                 {% assign current = 'active' %}
