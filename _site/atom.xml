@@ -5,7 +5,7 @@
  <link href="http://dev.paas.io/atom.xml" rel="self"/>
  <link href="http://dev.paas.io"/>
  <link rel="license" type="/application/rdf+xml" href="http://creativecommons.org/licenses/by-nc-sa/3.0/rdf" />
- <updated>2012-02-13T12:55:31-08:00</updated>
+ <updated>2012-02-13T13:07:53-08:00</updated>
  <id>http://dev.paas.io</id>
  <author>
      <name>PaaS.io, Inc.</name>
@@ -98,6 +98,11 @@ file.&lt;/p&gt;
 command line tool:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install paasio
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio login
+Attempting login to &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+Email: person@example.com
+Password: ************
+Successfully logged into &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -248,6 +253,11 @@ production group:&lt;/p&gt;
 command line tool:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install paasio
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio login
+Attempting login to &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+Email: person@example.com
+Password: ************
+Successfully logged into &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -427,6 +437,11 @@ to start up the application.&lt;/p&gt;
 command line tool:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install paasio
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio login
+Attempting login to &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+Email: person@example.com
+Password: ************
+Successfully logged into &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -582,6 +597,11 @@ and it will start up and be listening on port 3000.&lt;/p&gt;
 command line tool:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install paasio
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio login
+Attempting login to &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+Email: person@example.com
+Password: ************
+Successfully logged into &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;https://api.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
