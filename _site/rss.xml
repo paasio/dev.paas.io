@@ -5,7 +5,7 @@
     <link>http://dev.paas.io</link>
     <language>en</language>
     <webMaster>help@paas.io (PaaS.io, Inc.)</webMaster>
-    <pubDate>2012-02-13T10:11:04-08:00</pubDate>
+    <pubDate>2012-02-13T11:47:33-08:00</pubDate>
     <copyright>Copyright 2009</copyright>
     <creativeCommons:license>http://creativecommons.org/licenses/by-nc-sa/3.0/</creativeCommons:license>
     <ttl>60</ttl>
@@ -132,6 +132,7 @@ remote: Staging Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-rails31
 remote: Starting Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-rails31-app&amp;#39;&lt;/span&gt;: OK
 To deploy@paas.io:my-rails31-app.git
  * &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;new branch&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;      master -&amp;gt; master
+Branch master &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;up to track remote branch master from paasio.
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -161,6 +162,154 @@ Support for this will be coming soon.&lt;/p&gt;
 
 &lt;p&gt;Currently we do not support running one-off rake tasks. Supporting them
 is on our roadmap though.&lt;/p&gt;
+</description>
+      <creativeCommons:license>http://creativecommons.org/licenses/by-nc-sa/3.0/</creativeCommons:license>
+    </item>
+    
+    <item>
+      <title>Node.js</title>
+      <link>http://dev.paas.io/tutorials/nodejs</link>
+      <pubDate>Mon Feb 13 00:00:00 -0800 2012</pubDate>
+      <guid>http://dev.paas.io/archives/tutorials/nodejs/</guid>
+      <description>&lt;p&gt;In this tutorial, we will cover how to deploy a simple &quot;Hello World&quot;
+Node.js application.&lt;/p&gt;
+
+&lt;h2&gt;Prerequisites&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Basic Node.js knowledge&lt;/li&gt;
+&lt;li&gt;Node.js 0.6 already installed&lt;/li&gt;
+&lt;li&gt;Basic knowledge of Git, or Mercurial if you wish to use Mercurial&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Create Your Application&lt;/h2&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir node-hello
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;node-hello
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Create an &lt;code&gt;app.js&lt;/code&gt; file which will be your main entry point. By default,
+PaaS.io will look for an &lt;code&gt;app.js&lt;/code&gt; or &lt;code&gt;server.js&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;express&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createServer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Hello, World&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;listen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;VCAP_APP_PORT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;The port which the application is supposed to be listening on is passed
+using the &lt;code&gt;VCAP_APP_PORT&lt;/code&gt; environment variable. If this port isn't bound
+to on startup, it will assume the application failed to start and
+terminate it.&lt;/p&gt;
+
+&lt;p&gt;This app makes use of the &lt;code&gt;express&lt;/code&gt; module, so we need to install that
+locally with &lt;code&gt;npm&lt;/code&gt; to test it out.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install express
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;This will create the &lt;code&gt;node_modules&lt;/code&gt; directory. Currently, we don't
+install modules that are specified in a &lt;code&gt;packages.json&lt;/code&gt; file, so the
+modules directory must be commited to source control and deployed.&lt;/p&gt;
+
+&lt;p&gt;If we want to run our application locally, can just call &lt;code&gt;node app.js&lt;/code&gt;
+and it will start up and be listening on port 3000.&lt;/p&gt;
+
+&lt;h2&gt;Adding to Source Control&lt;/h2&gt;
+
+&lt;p&gt;If using Git, you can now create a repository:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git init
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git add .
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Initial Commit&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h2&gt;Deploying Your Application&lt;/h2&gt;
+
+&lt;p&gt;If you don't have it already, would recommend installing the PaaS.io
+command line tool:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install paasio
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;To create your application, use &lt;code&gt;paasio create&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio create node-hello
+Application Deployed URL &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;node-hello.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
+Detected a Node.js Application, is this correct? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Yn&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
+Memory Reservation &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;256M, 512M, 1G, 2G&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;256M&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
+Creating Application: OK
+Git remote paasio added
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Since it saw we were using a Git
+repository, it automatically added a &lt;code&gt;paasio&lt;/code&gt; remote to our repository:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote show paasio
+* remote paasio
+  Fetch URL: deploy@paas.io:node-hello.git
+  Push  URL: deploy@paas.io:node-hello.git
+  HEAD branch: &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;unknown&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;The HEAD branch portion says &quot;(unknown)&quot; because we haven't yet pushed
+anything to it.&lt;/p&gt;
+
+&lt;p&gt;Now we're ready to deploy it.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push -u paasio master
+Counting objects: 63, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
+Delta compression using up to 8 threads.
+Compressing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;48/48&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
+Writing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;63/63&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 25.21 KiB, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
+Total 63 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, reused 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+remote: Checking out code: OK
+remote:
+remote: Uploading Application:
+remote:   Checking &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;available resources: OK
+remote:   Packing application: OK
+remote:   Uploading &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;12K&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: Push Status: OK
+remote: Staging Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;node-hello&amp;#39;&lt;/span&gt;: OK
+remote: Starting Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;node-hello&amp;#39;&lt;/span&gt;: OK
+To deploy@paas.io:node-hello.git
+ * &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;new branch&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;      master -&amp;gt; master
+Branch master &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;up to track remote branch master from paasio.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;We specify the &lt;code&gt;-u&lt;/code&gt; parameter in the push command because this sets up
+tracking in Git. With that, when you run &lt;code&gt;git status&lt;/code&gt;, it will show you
+how many commits haven't been pushed to PaaS.io yet.&lt;/p&gt;
+
+&lt;p&gt;Your application is now live! We can test it out with a simple &lt;code&gt;curl&lt;/code&gt;
+command:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl http://node-hello.paas.io
+Hello, World
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+
 </description>
       <creativeCommons:license>http://creativecommons.org/licenses/by-nc-sa/3.0/</creativeCommons:license>
     </item>

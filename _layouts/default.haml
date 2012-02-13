@@ -37,7 +37,7 @@
                 {% assign current = 'active' %}
               {% endif %}
               <li class="{{current}}"><a href="/">Home</a>
-              {% for category in site.categories %}
+              {% for category in site.sorted_categories %}
                 <li class="nav-header">{{ category.first }}</li>
                 {% for post in category.last %}
                   {% assign current = nil %}
