@@ -5,11 +5,165 @@
     <link>http://dev.paas.io</link>
     <language>en</language>
     <webMaster>help@paas.io (PaaS.io, Inc.)</webMaster>
-    <pubDate>2012-01-25T17:48:42-08:00</pubDate>
+    <pubDate>2012-02-13T10:11:04-08:00</pubDate>
     <copyright>Copyright 2009</copyright>
     <creativeCommons:license>http://creativecommons.org/licenses/by-nc-sa/3.0/</creativeCommons:license>
     <ttl>60</ttl>
     <description>Developer Portal</description>
+    
+    <item>
+      <title>Rails 3.1</title>
+      <link>http://dev.paas.io/tutorials/rails-3-1</link>
+      <pubDate>Mon Feb 13 00:00:00 -0800 2012</pubDate>
+      <guid>http://dev.paas.io/archives/tutorials/rails-3-1/</guid>
+      <description>&lt;p&gt;In this tutorial, we will cover how to deploy a brand new Rails 3.1
+application to PaaS.io, focusing primarily on the configuration changes
+that are necessary.&lt;/p&gt;
+
+&lt;h2&gt;Prerequisites&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Basic Rails knowledge, including Bundler&lt;/li&gt;
+&lt;li&gt;Ruby already installed&lt;/li&gt;
+&lt;li&gt;Basic knowledge of Git, or Mercurial if you wish to use Mercurial&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Create Your Application&lt;/h2&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;rails new myapp
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;myapp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h4&gt;Gemfile updates&lt;/h4&gt;
+
+&lt;p&gt;In your Gemfile, add the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:production&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;thin&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;If you are also using a MySQL database, PaaS.io will automatically
+generate the &lt;code&gt;database.yml&lt;/code&gt; on deploy with the proper credentials,
+however you'll need to be sure to include the &lt;code&gt;mysql2&lt;/code&gt; gem in the
+production group:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;mysql2&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Now need to run bundler to make sure it regenerates the &lt;code&gt;Gemfile.lock&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;bundle install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h2&gt;Adding to Source Control&lt;/h2&gt;
+
+&lt;p&gt;If using Git, you can now create a repository:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git init
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git add .
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Initial Commit&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h2&gt;Deploying Your Application&lt;/h2&gt;
+
+&lt;p&gt;If you don't have it already, would recommend installing the PaaS.io
+command line tool:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install paasio
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;To create your application, use &lt;code&gt;paasio create&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;paasio create my-rails31-app
+Using application name &lt;span class=&quot;s2&quot;&gt;&amp;quot;my-rails31-app&amp;quot;&lt;/span&gt;...
+Application Deployed URL &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;my-rails31-app.paas.io&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
+Detected a Rails Application, is this correct? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Yn&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
+Memory Reservation &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;256M, 512M, 1G, 2G&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;256M&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;:
+Creating Application: OK
+Git remote paasio added
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Since it saw we were using a Git
+repository, it automatically added a &lt;code&gt;paasio&lt;/code&gt; remote to our repository:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote show paasio
+* remote paasio
+  Fetch URL: deploy@paas.io:my-rails31-app.git
+  Push  URL: deploy@paas.io:my-rails31-app.git
+  HEAD branch: &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;unknown&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;The HEAD branch portion says &quot;(unknown)&quot; because we haven't yet pushed
+anything to it.&lt;/p&gt;
+
+&lt;p&gt;Now we're ready to deploy it.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push -u paasio master
+Counting objects: 63, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
+Delta compression using up to 8 threads.
+Compressing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;48/48&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
+Writing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;63/63&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 25.21 KiB, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.
+Total 63 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, reused 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+remote: Checking out code: OK
+remote:
+remote: Uploading Application:
+remote:   Checking &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;available resources: OK
+remote:   Packing application: OK
+remote:   Uploading &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;36K&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: Push Status: OK
+remote: Staging Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-rails31-app&amp;#39;&lt;/span&gt;: OK
+remote: Starting Application &lt;span class=&quot;s1&quot;&gt;&amp;#39;my-rails31-app&amp;#39;&lt;/span&gt;: OK
+To deploy@paas.io:my-rails31-app.git
+ * &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;new branch&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;      master -&amp;gt; master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Your application is now live! When deploying, it may sit at the &quot;Staging
+Application&quot; stage for a little while at first.  It is working on
+installing all of the necessary gems. On future deploys, it will be much
+quicker since it will cache compiled gems for future use.&lt;/p&gt;
+
+&lt;p&gt;We specify the &lt;code&gt;-u&lt;/code&gt; parameter in the push command because this sets up
+tracking in Git. With that, when you run &lt;code&gt;git status&lt;/code&gt;, it will show you
+how many commits haven't been pushed to PaaS.io yet.&lt;/p&gt;
+
+&lt;h2&gt;Common Questions&lt;/h2&gt;
+
+&lt;h4&gt;Migrations&lt;/h4&gt;
+
+&lt;p&gt;Migrations are automatically checked and ran when an application is
+starting up.&lt;/p&gt;
+
+&lt;h4&gt;Rails Console&lt;/h4&gt;
+
+&lt;p&gt;Currently we do not have support for loading the Rails console.
+Support for this will be coming soon.&lt;/p&gt;
+
+&lt;h4&gt;Rake Tasks&lt;/h4&gt;
+
+&lt;p&gt;Currently we do not support running one-off rake tasks. Supporting them
+is on our roadmap though.&lt;/p&gt;
+</description>
+      <creativeCommons:license>http://creativecommons.org/licenses/by-nc-sa/3.0/</creativeCommons:license>
+    </item>
     
   </channel>
 </rss>

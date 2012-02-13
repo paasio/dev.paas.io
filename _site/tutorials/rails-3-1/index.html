@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <title>Rails 3.1 &mdash; PaaS.io Developer Portal</title>
+    <meta content='PaaS.io, Inc.' name='author' />
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href='/css/bootstrap.css' meda='all' rel='stylesheet' type='text/css' />
+    <link href='/css/pygments/trac.css' meda='screen' rel='stylesheet' type='text/css' />
+    <style type='text/css'>
+      /*<![CDATA[*/
+        body {
+          padding-top: 60px;
+        }
+      /*]]>*/
+    </style>
+    
+  </head>
+  <body>
+    <div class='navbar navbar-fixed'>
+      <div class='navbar-inner'>
+        <div class='container'>
+          <a class='brand' href='https://paas.io'>
+            <img height='25' src='/images/logo-small.png' width='45' />
+          </a>
+          <div class='brand'>Developer Portal</div>
+        </div>
+      </div>
+    </div>
+    <div class='container'>
+      <div class='row'>
+        <div class="span3">
+          <ul class="nav list">
+            
+            
+            <li class=""><a href="/">Home</a>
+            
+              <li class="nav-header">tutorials</li>
+              
+                
+                
+                  
+                
+                <li class="active"><a href="/tutorials/rails-3-1">Rails 3.1</a>
+              
+            
+          </ul>
+        </div>
+        <div class='span9' id='content'>
+          <div class="page-header">
+  <h1>Rails 3.1</h1>
+</div>
+
+<p>In this tutorial, we will cover how to deploy a brand new Rails 3.1
+application to PaaS.io, focusing primarily on the configuration changes
+that are necessary.</p>
+
+<h2>Prerequisites</h2>
+
+<ul>
+<li>Basic Rails knowledge, including Bundler</li>
+<li>Ruby already installed</li>
+<li>Basic knowledge of Git, or Mercurial if you wish to use Mercurial</li>
+</ul>
+
+
+<h2>Create Your Application</h2>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>rails new myapp
+<span class="nv">$ </span><span class="nb">cd </span>myapp
+</code></pre>
+</div>
+
+
+<h4>Gemfile updates</h4>
+
+<p>In your Gemfile, add the following:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">group</span> <span class="ss">:production</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">&#39;thin&#39;</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+
+<p>If you are also using a MySQL database, PaaS.io will automatically
+generate the <code>database.yml</code> on deploy with the proper credentials,
+however you'll need to be sure to include the <code>mysql2</code> gem in the
+production group:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">gem</span> <span class="s1">&#39;mysql2&#39;</span>
+</code></pre>
+</div>
+
+
+<p>Now need to run bundler to make sure it regenerates the <code>Gemfile.lock</code>:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>bundle install
+</code></pre>
+</div>
+
+
+<h2>Adding to Source Control</h2>
+
+<p>If using Git, you can now create a repository:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git init
+<span class="nv">$ </span>git add .
+<span class="nv">$ </span>git commit -m <span class="s2">&quot;Initial Commit&quot;</span>
+</code></pre>
+</div>
+
+
+<h2>Deploying Your Application</h2>
+
+<p>If you don't have it already, would recommend installing the PaaS.io
+command line tool:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>gem install paasio
+</code></pre>
+</div>
+
+
+<p>To create your application, use <code>paasio create</code></p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>paasio create my-rails31-app
+Using application name <span class="s2">&quot;my-rails31-app&quot;</span>...
+Application Deployed URL <span class="o">[</span>my-rails31-app.paas.io<span class="o">]</span>:
+Detected a Rails Application, is this correct? <span class="o">[</span>Yn<span class="o">]</span>:
+Memory Reservation <span class="o">(</span>256M, 512M, 1G, 2G<span class="o">)</span> <span class="o">[</span>256M<span class="o">]</span>:
+Creating Application: OK
+Git remote paasio added
+</code></pre>
+</div>
+
+
+<p>Since it saw we were using a Git
+repository, it automatically added a <code>paasio</code> remote to our repository:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git remote show paasio
+* remote paasio
+  Fetch URL: deploy@paas.io:my-rails31-app.git
+  Push  URL: deploy@paas.io:my-rails31-app.git
+  HEAD branch: <span class="o">(</span>unknown<span class="o">)</span>
+</code></pre>
+</div>
+
+
+<p>The HEAD branch portion says "(unknown)" because we haven't yet pushed
+anything to it.</p>
+
+<p>Now we're ready to deploy it.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git push -u paasio master
+Counting objects: 63, <span class="k">done</span>.
+Delta compression using up to 8 threads.
+Compressing objects: 100% <span class="o">(</span>48/48<span class="o">)</span>, <span class="k">done</span>.
+Writing objects: 100% <span class="o">(</span>63/63<span class="o">)</span>, 25.21 KiB, <span class="k">done</span>.
+Total 63 <span class="o">(</span>delta 2<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>
+remote: Checking out code: OK
+remote:
+remote: Uploading Application:
+remote:   Checking <span class="k">for </span>available resources: OK
+remote:   Packing application: OK
+remote:   Uploading <span class="o">(</span>36K<span class="o">)</span>: Push Status: OK
+remote: Staging Application <span class="s1">&#39;my-rails31-app&#39;</span>: OK
+remote: Starting Application <span class="s1">&#39;my-rails31-app&#39;</span>: OK
+To deploy@paas.io:my-rails31-app.git
+ * <span class="o">[</span>new branch<span class="o">]</span>      master -&gt; master
+</code></pre>
+</div>
+
+
+<p>Your application is now live! When deploying, it may sit at the "Staging
+Application" stage for a little while at first.  It is working on
+installing all of the necessary gems. On future deploys, it will be much
+quicker since it will cache compiled gems for future use.</p>
+
+<p>We specify the <code>-u</code> parameter in the push command because this sets up
+tracking in Git. With that, when you run <code>git status</code>, it will show you
+how many commits haven't been pushed to PaaS.io yet.</p>
+
+<h2>Common Questions</h2>
+
+<h4>Migrations</h4>
+
+<p>Migrations are automatically checked and ran when an application is
+starting up.</p>
+
+<h4>Rails Console</h4>
+
+<p>Currently we do not have support for loading the Rails console.
+Support for this will be coming soon.</p>
+
+<h4>Rake Tasks</h4>
+
+<p>Currently we do not support running one-off rake tasks. Supporting them
+is on our roadmap though.</p>
+
+
+<h6>Monday, February 13, 2012</h6>
+
+        </div>
+      </div>
+      <footer>&copy; 2012 PaaS.io, Inc.</footer>
+    </div>
+    
+  </body>
+</html>
