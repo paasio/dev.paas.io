@@ -94,7 +94,8 @@ Node.js application.</p>
 
 
 <p>Create an <code>app.js</code> file which will be your main entry point. By default,
-PaaS.io will look for an <code>app.js</code> or <code>server.js</code> file.</p>
+PaaS.io will look for a file in the following order:
+<code>server.js</code>, <code>app.js</code>, <code>index.js</code>, <code>main.js</code>, or <code>application.js</code>.</p>
 
 <div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">).</span><span class="nx">createServer</span><span class="p">();</span>
 

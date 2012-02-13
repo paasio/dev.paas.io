@@ -5,7 +5,7 @@
  <link href="http://dev.paas.io/atom.xml" rel="self"/>
  <link href="http://dev.paas.io"/>
  <link rel="license" type="/application/rdf+xml" href="http://creativecommons.org/licenses/by-nc-sa/3.0/rdf" />
- <updated>2012-02-13T13:54:25-08:00</updated>
+ <updated>2012-02-13T14:03:23-08:00</updated>
  <id>http://dev.paas.io</id>
  <author>
      <name>PaaS.io, Inc.</name>
@@ -666,7 +666,8 @@ Node.js application.&lt;/p&gt;
 
 
 &lt;p&gt;Create an &lt;code&gt;app.js&lt;/code&gt; file which will be your main entry point. By default,
-PaaS.io will look for an &lt;code&gt;app.js&lt;/code&gt; or &lt;code&gt;server.js&lt;/code&gt; file.&lt;/p&gt;
+PaaS.io will look for a file in the following order:
+&lt;code&gt;server.js&lt;/code&gt;, &lt;code&gt;app.js&lt;/code&gt;, &lt;code&gt;index.js&lt;/code&gt;, &lt;code&gt;main.js&lt;/code&gt;, or &lt;code&gt;application.js&lt;/code&gt;.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;express&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createServer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
 
