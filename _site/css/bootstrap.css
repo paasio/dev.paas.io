@@ -609,8 +609,6 @@ a.thumbnail:hover{border-color:#0088cc;-webkit-box-shadow:0 1px 4px rgba(0, 105,
 .show{display:block;}
 .invisible{visibility:hidden;}
 section{padding-top:60px;}
-.page-header{margin:18px 0;border-bottom:1px solid #eee;}
-.page-header h1{margin-bottom:17px;line-height:1;}
 .fl{float:left;}
 .fr{float:right;}
 .clear{clear:both;}
@@ -620,3 +618,4 @@ section{padding-top:60px;}
 code{color:#333333;background-color:#fee9cc;padding:1px 3px;border:none;}
 #content{margin-bottom:36px;}
 footer{position:fixed;bottom:0;}
+.page-header{padding-bottom:5px;margin-bottom:10px;}
